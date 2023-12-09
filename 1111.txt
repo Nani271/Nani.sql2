@@ -1,0 +1,62 @@
+ Step 1: Create the database named "MyCompany"
+
+CREATE DATABASE MyCompany;
+
+ Step 2: Create the "Customers" table with schema and data
+
+USE MyCompany;
+
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(255),
+    ContactName VARCHAR(255),
+    Address VARCHAR(255),
+    City VARCHAR(255),
+    PostalCode VARCHAR(10),
+    Country VARCHAR(255)
+);
+
+INSERT INTO Customers (CustomerID, CustomerName, ContactName, Address, City, PostalCode, Country)
+VALUES
+(1, 'Alfreds Futterkeste', 'Maria Anders', 'Obere Str. 57', 'Berlin', '12209', 'Germany'),
+(2, 'Ana Trujillo Emparedados y helados', 'Ana Trujillo', '3 Antonio Moreno Taqueria', 'Mataderos 2312', '05021', 'Mexico');
+
+ Step 3: Create the "Orders" table with schema and data
+
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    EmployeelD INT,
+    OrderDate DATE,
+    ShippertD INT,
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+INSERT INTO Orders (OrderID, CustomerID, EmployeelD, OrderDate, ShippertD)
+VALUES
+(10308, 2, 3, '1996-09-10', 3),
+(10309, 37, 1, '1996-09-10', 1),
+(10310, 77, 4, '1995-09-20', 4);
+
+ Step 4: Create the "Shippers" table with schema and data
+
+
+CREATE TABLE Shippers (
+    ShipperID INT PRIMARY KEY,
+    ShipperName VARCHAR(255),
+    Phone VARCHAR(20)
+);
+
+INSERT INTO Shippers (ShipperID, ShipperName, Phone)
+VALUES
+(1, 'Speedy Express', '(503) 555-9831'),
+(2, 'United Package', '(503) 555-3199'),
+(3, 'Federal Shipping', '(503) 555-9931');
+
+ Step 5: Write a query to get the list of all orders placed by "Ana" after 1996 and their shipper details
+
+SELECT Orders.OrderID, Customers.CustomerName AS Customer, Orders.OrderDate, Shippers.ShipperName
+FROM Orders
+JOIN Customers ON Orders.CustomerID = Customers.CustomerID
+JOIN Shippers ON Orders.ShippertD = Shippers.ShipperID
+WHERE Customers.ContactName = 'Ana Trujillo' AND Orders.OrderDate > '1996-01-01';
